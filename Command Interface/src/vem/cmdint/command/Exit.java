@@ -1,8 +1,8 @@
-package me.sam.bored.command;
+package vem.cmdint.command;
 
-import me.sam.bored.Addon;
-import me.sam.bored.Main;
-import me.sam.bored.logger.Logger;
+import vem.cmdint.Addon;
+import vem.cmdint.Main;
+import vem.cmdint.logger.Logger;
 
 public class Exit implements ICommand{
 

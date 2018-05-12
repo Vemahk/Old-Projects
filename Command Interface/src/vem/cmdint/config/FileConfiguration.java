@@ -1,4 +1,4 @@
-package me.sam.bored.config;
+package vem.cmdint.config;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import me.sam.bored.logger.Logger;
+import vem.cmdint.logger.Logger;
 
 public class FileConfiguration {
 

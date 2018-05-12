@@ -1,4 +1,4 @@
-package me.sam.bored.command;
+package vem.cmdint.command;
 
 public interface ICommand {
 	

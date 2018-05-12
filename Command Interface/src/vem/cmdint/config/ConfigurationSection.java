@@ -1,4 +1,4 @@
-package me.sam.bored.config;
+package vem.cmdint.config;
 
 import java.util.ArrayList;
 import java.util.List;

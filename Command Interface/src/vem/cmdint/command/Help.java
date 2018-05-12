@@ -1,7 +1,7 @@
-package me.sam.bored.command;
+package vem.cmdint.command;
 
-import me.sam.bored.Main;
-import me.sam.bored.logger.Logger;
+import vem.cmdint.Main;
+import vem.cmdint.logger.Logger;
 
 public class Help implements ICommand{
 

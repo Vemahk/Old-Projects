@@ -1,6 +1,6 @@
-package me.sam.bored;
+package vem.cmdint;
 
-import static me.sam.bored.logger.Logger.*;
+import static vem.cmdint.logger.Logger.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,10 +13,10 @@ import java.util.Scanner;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-import me.sam.bored.command.Exit;
-import me.sam.bored.command.Help;
-import me.sam.bored.command.ICommand;
-import me.sam.bored.logger.Logger;
+import vem.cmdint.command.Exit;
+import vem.cmdint.command.Help;
+import vem.cmdint.command.ICommand;
+import vem.cmdint.logger.Logger;
 
 public class Main {
 

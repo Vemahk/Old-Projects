@@ -1,12 +1,12 @@
-package me.sam.bored;
+package vem.cmdint;
 
 import java.io.File;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
-import me.sam.bored.command.ICommand;
-import me.sam.bored.config.FileConfiguration;
-import me.sam.bored.logger.Logger;
+import vem.cmdint.command.ICommand;
+import vem.cmdint.config.FileConfiguration;
+import vem.cmdint.logger.Logger;
 
 public class Addon {
 
