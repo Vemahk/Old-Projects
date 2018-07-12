@@ -11,7 +11,7 @@ public class Clock {
 	private short time = 0;
 	private Thread timeTracker = new Thread(){
 		public void run(){
-			while(Minesweeper.screen.hasStarted()){
+			while(Minesweeper.hasStarted()){
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {

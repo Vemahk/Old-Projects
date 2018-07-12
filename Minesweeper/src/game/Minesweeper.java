@@ -1,11 +1,12 @@
 package game;
 
 import java.awt.Image;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -20,29 +21,23 @@ public class Minesweeper {
 	public static HashMap<String, Image> images = new HashMap<String, Image>();
 	
 	public static void compileImages(String s) throws IOException{
-		
 		InputStream is = Minesweeper.class.getResourceAsStream(s);
+		BufferedReader buff = new BufferedReader(new InputStreamReader(is));
 		
-		StringBuffer read = new StringBuffer();
-		
-		byte[] buffer = new byte[1024];
-		int len = 0;
-		while((len = is.read(buffer)) > 0)
-			for(int i=0;i<len;i++)
-				read.append((char)buffer[i]);
-		
-		Scanner scan = new Scanner(read.toString());
-		while(scan.hasNextLine()){
-			String in = scan.nextLine();
+		while(buff.ready()){
+			String in = buff.readLine();
 			images.put(in.substring(in.lastIndexOf('/') + 1, in.length()-4),
 					ImageIO.read(Minesweeper.class.getResourceAsStream("resources/" + in)));
 		}
-		scan.close();
+
+		buff.close();
 	}
 
 	public static byte WIDTH;
 	public static byte HEIGHT;
 	public static short BOMBS;
+
+	public static Square[][] field;
 
 	public static short flagCount = 0;
 
@@ -50,58 +45,80 @@ public class Minesweeper {
 
 	public static Screen screen;
 	public static Clock timer;
+	
+	private static boolean started;
+	private static boolean lost;
+	private static boolean won;
 
-	public static void main(String[] args) {
-		
-		try{
-			compileImages("resources/graphics.dat");
-		}catch(IOException e){
-			e.printStackTrace();
-		}
-		
-		compileDifficulty();
+	public static void main(String[] args) throws IOException {
+		compileImages("resources/graphics.dat");
+		setDifficulty();
 
 		buildFrame();
 		restart();
-		
 	}
 
 	public static void restart() {
 		if (timer != null)
 			timer.stop();
 		timer = new Clock();
-		screen.restart();
+		
+		started = false;
+		lost = false;
+		won = false;
+		makeField();
+		setFlagCount((short)0);
 	}
 
 	private static void buildFrame() {
 		JFrame frame = new JFrame("Minesweeper");
-
+		
 		screen = new Screen();
-		frame.getContentPane().add(screen);
+		
+		frame.add(screen);
 		frame.pack();
 
+		frame.setResizable(false);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
-		frame.setResizable(false);
 
 		screen.requestFocus();
 	}
+	
+	public static void makeField() {
+		int x = WIDTH;
+		int y = HEIGHT;
 
-	public static boolean inBounds(int xi, int yi) {
-		return xi >= 0 && xi < WIDTH && yi >= 0 && yi < HEIGHT;
+		field = new Square[x][y];
+		bombs = new ArrayList<Bomb>();
+
+		for (int ix = 0; ix < x; ix++)
+			for (int iy = 0; iy < y; iy++)
+				if (field[ix][iy] == null)
+					field[ix][iy] = new game.objects.Number(ix, iy);
+		
+		if(timer != null)
+			timer.stop();
+		
+		timer = new Clock();
 	}
 
-	public static boolean inBounds(byte xi, byte yi) {
-		return inBounds((int) xi, (int) yi);
+	public static Square getSquare(int x, int y) {
+		if (!inBounds(x, y)) return null;
+		return field[x][y];
+	}
+	
+	public static boolean inBounds(int x, int y) {
+		return between(x, y, 0, WIDTH, 0, HEIGHT);
 	}
 
 	public static boolean between(int x, int y, int tx, int tx2, int ty, int ty2) {
 		return x >= tx && x < tx2 && y >= ty && y < ty2;
 	}
 
-	public static void setFlagCount(short s) {
-		flagCount = s;
+	public static void setFlagCount(int s) {
+		flagCount = (short)s;
 		screen.repaint();
 	}
 
@@ -115,22 +132,55 @@ public class Minesweeper {
 		screen.repaint();
 	}
 
+	public static void end() {
+		timer.stop();
+		lost = true;
+		screen.setFace(2);
+	}
+
+	public static void finish() {
+		timer.stop();
+		won = true;
+		screen.setFace(3);
+	}
+
+	public static boolean hasLost() {
+		return lost;
+	}
+
+	public static boolean hasWon() {
+		return won;
+	}
+
+	public static boolean hasStarted() {
+		return started;
+	}
+
+	public static void start() {
+		started = true;
+		Minesweeper.timer.start();
+	}
+	
 	public static boolean isDone() {
-		for (Square[] ar : screen.field)
-			for (Square s : ar) {
+		for (Square[] ar : field)
+			for (Square s : ar) 
 				if (s instanceof Bomb)
 					if (!s.isFlagged())
 						return false;
-				if (s instanceof game.objects.Number)
+					else;
+				else if (s instanceof game.objects.Number)
 					if (s.isHidden())
 						return false;
-			}
 		return true;
 	}
 
-	private static void compileDifficulty() {
+	private static void setDifficulty() {
 		Difficulty diff = (Difficulty) JOptionPane.showInputDialog(null, "Select Difficulty", "", JOptionPane.QUESTION_MESSAGE,
-				null, Difficulty.values(), Difficulty.values()[0]);
+				null, Difficulty.values(), Difficulty.EASY);
+		
+		if(diff == null)
+			System.exit(0);
+		
 		WIDTH = diff.getWidth();
 		HEIGHT = diff.getHeight();
 		BOMBS = diff.getBombs();

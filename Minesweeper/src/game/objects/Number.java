@@ -12,7 +12,7 @@ public class Number extends Square {
 	private Set<Square> nearby;
 	private byte count;
 
-	public Number(byte x, byte y) {
+	public Number(int x, int y) {
 		super(x, y);
 	}
 
@@ -58,13 +58,13 @@ public class Number extends Square {
 	private Set<Square> surrounding(){
 		Set<Square> out = new HashSet<Square>();
 		
-		for (byte ix = (byte) (getX() - 1); ix <= getX() + 1; ix++) {
-			for (byte iy = (byte) (getY() - 1); iy <= getY() + 1; iy++) {
+		for (int ix = getX() - 1; ix <= getX() + 1; ix++) {
+			for (int iy = getY() - 1; iy <= getY() + 1; iy++) {
 				if (ix < 0 || ix >= Minesweeper.WIDTH || iy < 0 || iy >= Minesweeper.HEIGHT)
 					continue;
 				if (ix == getX() && iy == getY())
 					continue;
-				Square s = Minesweeper.screen.getSquare(ix, iy);
+				Square s = Minesweeper.getSquare(ix, iy);
 				out.add(s);
 			}
 		}

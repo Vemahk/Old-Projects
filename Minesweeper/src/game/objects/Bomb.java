@@ -8,7 +8,7 @@ import static game.Minesweeper.images;
 
 public class Bomb extends Square{
 	
-	public Bomb(byte x, byte y){
+	public Bomb(int x, int y){
 		super(x,y);
 		Minesweeper.bombs.add(this);
 	}
@@ -25,7 +25,7 @@ public class Bomb extends Square{
 		for(Bomb b : Minesweeper.bombs)
 			b.setVisible();
 		red = true;
-		Minesweeper.screen.end();
+		Minesweeper.end();
 		
 		return true;
 	}

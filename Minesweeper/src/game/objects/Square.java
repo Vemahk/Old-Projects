@@ -14,9 +14,9 @@ public class Square {
 	private final byte x;
 	private final byte y;
 	
-	public Square(byte x, byte y){
-		this.x = x;
-		this.y = y;
+	public Square(int x, int y){
+		this.x = (byte)x;
+		this.y = (byte)y;
 		visible = false;
 	}
 	
@@ -57,7 +57,7 @@ public class Square {
 		int dy = 46 + y*16;
 		if(isHidden()){
 			if(flagged){
-				if(Minesweeper.screen.hasLost() && this instanceof game.objects.Number)
+				if(Minesweeper.hasLost() && this instanceof game.objects.Number)
 					g.drawImage(images.get("notabomb"), dx, dy, null);
 				else
 					g.drawImage(images.get("flag"), dx, dy, null);
