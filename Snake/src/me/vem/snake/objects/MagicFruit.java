@@ -1,17 +1,20 @@
-package game.objects;
+package me.vem.snake.objects;
 
 import java.awt.Color;
 import java.awt.Graphics;
 
 public class MagicFruit extends Fruit{
+
+	public static MagicFruit instance;
 	
 	public MagicFruit(){
 		super();
+		MagicFruit.instance = this;
 	}
 	
 	private Color lastColor = new Color(255,0,0);
 	public void draw(Graphics window){
-		window.setColor(nextColor());
+		window.setColor(lastColor = nextColor());
 		window.fillRect(getX()*20+1, getY()*20+1, 18, 18);
 	}
 	
@@ -35,9 +38,7 @@ public class MagicFruit extends Fruit{
 			if(blue==255)to=0;
 		}
 		
-		Color out = new Color(red, green, blue);
-		lastColor = out;
-		return out;
+		return new Color(red, green, blue);
 	}
 	
 }
