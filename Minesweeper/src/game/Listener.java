@@ -25,9 +25,9 @@ public class Listener extends MouseAdapter{
 		
 		if(!hasStarted() && onBoard){
 			start();
-			byte xx = WIDTH;
-			byte yy = HEIGHT;
-			short b = BOMBS;
+			byte xx = DIFFICULTY.getWidth();
+			byte yy = DIFFICULTY.getHeight();
+			short b = DIFFICULTY.getBombs();
 
 			while (b > 0) {
 				int dx = (int) (Math.random() * xx);

@@ -72,7 +72,7 @@ public class Screen extends JPanel {
 				s.draw(g);
 		
 		//Bombs_Left
-		String bombsLeft = ""+(Minesweeper.BOMBS-Minesweeper.flagCount);
+		String bombsLeft = ""+(Minesweeper.DIFFICULTY.getBombs()-Minesweeper.flagCount);
 		while(bombsLeft.length()<3){
 			if(bombsLeft.startsWith("-"))
 				bombsLeft = "-0"+bombsLeft.substring(1);
@@ -95,6 +95,6 @@ public class Screen extends JPanel {
 	}
 
 	public Dimension getPreferredSize() {
-		return new Dimension(Minesweeper.WIDTH * 16 + 10, Minesweeper.HEIGHT * 16 + 46);
+		return new Dimension(Minesweeper.DIFFICULTY.getWidth() * 16 + 10, Minesweeper.DIFFICULTY.getHeight()* 16 + 46);
 	}
 }

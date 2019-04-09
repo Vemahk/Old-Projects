@@ -60,7 +60,7 @@ public class Number extends Square {
 		
 		for (int ix = getX() - 1; ix <= getX() + 1; ix++) {
 			for (int iy = getY() - 1; iy <= getY() + 1; iy++) {
-				if (ix < 0 || ix >= Minesweeper.WIDTH || iy < 0 || iy >= Minesweeper.HEIGHT)
+				if (ix < 0 || ix >= Minesweeper.DIFFICULTY.getWidth() || iy < 0 || iy >= Minesweeper.DIFFICULTY.getHeight())
 					continue;
 				if (ix == getX() && iy == getY())
 					continue;

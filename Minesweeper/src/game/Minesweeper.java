@@ -33,9 +33,7 @@ public class Minesweeper {
 		buff.close();
 	}
 
-	public static byte WIDTH;
-	public static byte HEIGHT;
-	public static short BOMBS;
+	public static Difficulty DIFFICULTY;
 
 	public static Square[][] field;
 
@@ -87,8 +85,8 @@ public class Minesweeper {
 	}
 	
 	public static void makeField() {
-		int x = WIDTH;
-		int y = HEIGHT;
+		int x = DIFFICULTY.getWidth();
+		int y = DIFFICULTY.getHeight();
 
 		field = new Square[x][y];
 		bombs = new ArrayList<Bomb>();
@@ -110,7 +108,7 @@ public class Minesweeper {
 	}
 	
 	public static boolean inBounds(int x, int y) {
-		return between(x, y, 0, WIDTH, 0, HEIGHT);
+		return between(x, y, 0, DIFFICULTY.getWidth(), 0, DIFFICULTY.getHeight());
 	}
 
 	public static boolean between(int x, int y, int tx, int tx2, int ty, int ty2) {
@@ -175,39 +173,35 @@ public class Minesweeper {
 	}
 
 	private static void setDifficulty() {
-		Difficulty diff = (Difficulty) JOptionPane.showInputDialog(null, "Select Difficulty", "", JOptionPane.QUESTION_MESSAGE,
+		DIFFICULTY = (Difficulty) JOptionPane.showInputDialog(null, "Select Difficulty", "", JOptionPane.QUESTION_MESSAGE,
 				null, Difficulty.values(), Difficulty.EASY);
 		
-		if(diff == null)
+		if(DIFFICULTY == null)
 			System.exit(0);
+	}
+	
+	public static enum Difficulty{
+		EASY(8, 8, 10, "Easy"),
+		MED(16, 16, 40, "Medium"),
+		HARD(31, 16, 99, "Hard"),
+		LOL(50, 30, 250, "lol wat 8/8 gr8gamem8");
 		
-		WIDTH = diff.getWidth();
-		HEIGHT = diff.getHeight();
-		BOMBS = diff.getBombs();
+		private byte width;
+		private byte height;
+		private short bombs;
+		private String name;
+		
+		private Difficulty(int w, int h, int b, String name) {
+			width = (byte)w;
+			height = (byte)h;
+			bombs = (short)b;
+			this.name = name;
+		}
+		
+		public byte getWidth() { return width; }
+		public byte getHeight() { return height; }
+		public short getBombs() { return bombs; }
+		public String getName() { return name; }
+		public String toString() { return getName(); }
 	}
-}
-
-enum Difficulty{
-	EASY(8, 8, 10, "Easy"),
-	MED(16, 16, 40, "Medium"),
-	HARD(31, 16, 99, "Hard"),
-	LOL(50, 30, 250, "lol wat 8/8 gr8gamem8");
-	
-	private byte width;
-	private byte height;
-	private short bombs;
-	private String name;
-	
-	private Difficulty(int w, int h, int b, String name) {
-		width = (byte)w;
-		height = (byte)h;
-		bombs = (short)b;
-		this.name = name;
-	}
-	
-	public byte getWidth() { return width; }
-	public byte getHeight() { return height; }
-	public short getBombs() { return bombs; }
-	public String getName() { return name; }
-	public String toString() { return getName(); }
 }
